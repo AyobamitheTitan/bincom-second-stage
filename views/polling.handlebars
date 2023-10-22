@@ -1,0 +1,38 @@
+<h2>Polling unit</h2>
+
+<div>
+    Enter the unique id of the polling unit to be checked
+    <input type="number" class="input" >
+    <button>Check</button>
+</div>
+
+<script>
+    const id = document.querySelector('.input')
+    const btn = document.querySelector('button')
+    btn.addEventListener('click', click)
+
+    function click(){
+        fetch(`http://localhost:3000/polling/${id.value}`).then(res=>{
+            res.json().then(val=>{
+                if(document.body.querySelector('.new_div')){
+                    document.body.removeChild(document.body.querySelector('.new_div'))
+                }
+                newElement(val)
+            })
+        })
+    }
+
+    function newElement(response){
+        let el = response[0]
+        let div = document.createElement('div')
+
+        div.classList.add('new_div')
+        div.innerHTML = `
+        <div>
+        <h1>Unit Name: ${el.polling_unit_name}</h1>
+        <p>Unit Number: ${el.polling_unit_number}</p>
+        </div>
+        `
+        document.body.appendChild(div)
+    }
+</script>
