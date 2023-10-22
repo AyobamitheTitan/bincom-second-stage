@@ -1,7 +1,10 @@
-<h2>Polling unit</h2>
+<h2>Local Government Areas</h2>
 
 <div>
-    Enter the unique id of the polling unit to be checked
+    Enter the lga_id of the LGA to be checked <br>
+    We'll return the number of polling units there <br>
+
+    <sub><i>(Please note that the lga id's are only between 1-31)</i></sub>
     <input type="number" class="input" >
     <button>Check</button>
 </div>
@@ -12,10 +15,10 @@
     btn.addEventListener('click', click)
 
     function click(){
-        fetch(`http://localhost:3000/polling/${id.value}`).then(res=>{
+        fetch(`http://localhost:3000/lga/${id.value}`).then(res=>{
             res.json().then(val=>{
-                if(document.body.querySelector('.new_div')){
-                    document.body.removeChild(document.body.querySelector('.new_div'))
+                if(document.body.querySelector('.new')){
+                    document.body.removeChild(document.body.querySelector('.new'))
                 }
                 newElement(val)
             })
@@ -23,16 +26,14 @@
     }
 
     function newElement(response){
-        let el = response[0]
+        let el = response
         let div = document.createElement('div')
 
-        div.classList.add('new_div')
+        div.classList.add('new')
         div.innerHTML = `
-        <div>
-        <h3>Unit Name: ${el.polling_unit_name}</h3>
-        <p>Unit Number: ${el.polling_unit_number}</p>
-        </div>
+        Number of polling units : ${response.length}
         `
         document.body.appendChild(div)
     }
+    
 </script>
